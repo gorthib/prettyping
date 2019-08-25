@@ -1,0 +1,61 @@
+Building the prettyping Debian binary package:
+=============================================
+
+If your OS platform is Debian/Ubuntu, here is the process to create prettyping Debian Package:
+
+Any Debian packages contain basic metadata such as names and descriptions and the packages may have one or many dependencies.
+
+A Debian package -- a .deb file -- is similar to a tar.gz or zip file containing metadata and files. 
+
+It's not actually a tar.gz or zip: the format is archiver (ar) format.
+
+Creating prettyping Debian application
+======================================
+
+Clone git repository:
+
+First, get the sources from prettyping git repository (assuming you have git installed on your OS.
+
+$ git clone https://github.com/gorthib/prettyping.git
+
+Create prettypingroot directory and copy prettyping you downloaded earlier.
+
+Build the package:
+=================
+
+$ cd DebianPkg
+
+$ sudo dpkg-deb -b prettypingroot prettypingroot/prettyping_1.1.1.deb
+
+Or
+
+# dpkg-deb -b prettypingroot prettypingroot/prettyping_1.1.1.deb
+
+Install the package:
+===================
+
+$ cd prettypingroot
+
+$ sudo dpkg -i ./prettyping_1.1.1.deb
+
+In fact, the install can be run directly skpping Build Package step above.
+ 
+Validate the installation:
+=========================
+
+$ lintian ./prettyping_1.1.1.deb
+
+E: prettyping: changelog-file-missing-in-native-package
+E: prettyping: no-copyright-file
+W: prettyping: description-synopsis-starts-with-article
+W: prettyping: description-too-long
+W: prettyping: extended-description-line-too-long
+E: prettyping: depends-on-essential-package-without-using-version depends: bash
+W: prettyping: virtual-package-depends-without-real-package-depends depends: awk
+E: prettyping: needlessly-depends-on-awk depends
+W: prettyping: file-in-unusual-dir Readme.md
+W: prettyping: file-in-unusual-dir prettyping_1.1.1.deb
+E: prettyping: file-directly-in-usr-share-doc usr/share/doc/Readme.md
+E: prettyping: file-directly-in-usr-share-doc usr/share/doc/copyright
+W: prettyping: binary-without-manpage usr/bin/prettyping
+
